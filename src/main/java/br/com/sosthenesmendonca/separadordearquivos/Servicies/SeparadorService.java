@@ -20,10 +20,12 @@ public class SeparadorService {
 	public void obterArquivos() throws IOException {
 		InputStream in;
 		OutputStream out;
-
-		File folder = new File("C:/Users/Public/Documents/DiretorioTeste-Separador");
-
+		String caminhoDiretorio = "C:/Users/sosthenes.mendonca/Documents/Diretorio-teste";
+		String barra = "/";
+		
+		File folder = new File(caminhoDiretorio);
 		File[] listaDeArquivos = folder.listFiles();
+		
 		Set<String> extensoes = new HashSet<>();
 
 		// OBTER OS NOMES DAS EXTESÕES PARA CRIAR AS PASTAS
@@ -39,12 +41,12 @@ public class SeparadorService {
 
 		}
 
-		System.out.println(extensoes.toString());
+		System.out.println("Extensões localizadas -> " + extensoes.toString());
 		
 		
 		// CRIAÇÃO DAS NOVAS PASTAS
 		for (String ex : extensoes) {
-			File novaPasta = new File("C:/Users/Public/Documents/DiretorioTeste-Separador/" + ex);
+			File novaPasta = new File(caminhoDiretorio + barra + ex);
 			novaPasta.mkdir();
 
 		}
@@ -55,19 +57,18 @@ public class SeparadorService {
 
 			String ext = "";
 			String nomeArquivo = file.getName();
-			//System.out.println("nomeArquivo >>> " + nomeArquivo);
-			File origem = new File("C:/Users/Public/Documents/DiretorioTeste-Separador/" + nomeArquivo);
+			File origem = new File(caminhoDiretorio + barra + nomeArquivo);
 			
 			int lastDotIndex = nomeArquivo.lastIndexOf('.');
 			if (lastDotIndex != -1 && lastDotIndex < nomeArquivo.length() - 1) {
 				ext = nomeArquivo.substring(lastDotIndex + 1);
 			}
 			
-			File destino = new File("C:/Users/Public/Documents/DiretorioTeste-Separador/" + ext + "/");
+			File destino = new File(caminhoDiretorio + barra + ext + barra);
 			
 			moverArquivos(origem, destino);
-
 		}
+		
 		
 		System.out.println("Total de arquivos organizados -> " + listaDeArquivos.length);
 	
@@ -76,6 +77,7 @@ public class SeparadorService {
 	
 	
 	
+	//METODO PARA MOVER OS ARQUIVOS
 	public void moverArquivos(File origemDir, File destinoDir) throws IOException {
 		
 	    var arquivo = origemDir.getAbsoluteFile();
